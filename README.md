@@ -26,7 +26,7 @@ Set `vim.g.highlighturl = true` somewhere in your config(example, init.lua) to e
 
 ### After
 
-![]("./images/after.png")
+![](./images/after.png)
 
 
 
