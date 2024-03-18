@@ -1,4 +1,4 @@
-vim.g.highlighturl = true
+
 
 vim.api.nvim_set_hl(0, 'HighlightURL', { underline = true })
 
