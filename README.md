@@ -18,6 +18,18 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim) in lua
 Set `vim.g.highlighturl = true` somewhere in your config(example, init.lua) to enable highlighting.
 
 
+## Screenshots
+
+### Before
+
+![](./images/before.png)
+
+### After
+
+![]("./images/after.png")
+
+
+
 ## Extras
 Highlighting is controlled through the global `vim.g.highlighturl` variable.
 You can add a manipulate the boolean variable to turn off highlighting with some
