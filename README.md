@@ -34,3 +34,4 @@ Set `vim.g.highlighturl = true` somewhere in your config(example, init.lua) to e
 Highlighting is controlled through the global `vim.g.highlighturl` variable.
 You can add a manipulate the boolean variable to turn off highlighting with some
 custom logic.
+Note: Doesn't work with lazyloading so be sure to disable lazyloading for this to work.
