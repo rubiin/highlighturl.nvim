@@ -10,7 +10,12 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim) in lua
 
 ```lua
 
-{"rubiin/highlighturl.nvim"}
+{
+"rubiin/highlighturl.nvim",
+init =function()
+  vim.g.highlighturl = true
+end
+}
 
 ```
 
