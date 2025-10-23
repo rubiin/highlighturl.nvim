@@ -11,8 +11,9 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim) in lua
 
 {
 "rubiin/highlighturl.nvim",
-init = function()
-  vim.g.highlighturl = true
+event = "BufEnter",  -- load when entering a buffer
+config = function()
+  require("highlighturl").setup()
 end
 }
 ```
@@ -29,5 +30,5 @@ end
 
 ### EXAMPLES
 
-Do not load this plugin. 
+Do not load this plugin.
 ```vim.g.highlighturl = true```
