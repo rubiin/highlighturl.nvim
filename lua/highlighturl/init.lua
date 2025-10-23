@@ -35,8 +35,6 @@ function M.setup(opts)
 
   M.opts = vim.tbl_deep_extend("force", defaultConfig, opts or {})
 
-  print("HighlightURL configured.", vim.inspect(M.opts))
-
   vim.api.nvim_set_hl(0, "URLHighlight", { fg = M.opts.highlight_color, underline = true })
 
   -- Create autocmd group
