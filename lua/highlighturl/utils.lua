@@ -3,7 +3,7 @@ local M = {}
 --- Delete the syntax matching rules for URLs/URIs if set.
 function M.unhighlight_url()
   for _, match in ipairs(vim.fn.getmatches()) do
-    if match.group == "HighlightURL" then
+    if match.group == "HighLightURL" then
       vim.fn.matchdelete(match.id)
     end
   end
@@ -21,7 +21,7 @@ function M.highlight_url()
 
   M.unhighlight_url()
   if vim.g.highlighturl then
-    vim.fn.matchadd("HighlightURL", url_matcher, 15)
+    vim.fn.matchadd("HighLightURL", url_matcher, 15)
   end
 end
 
