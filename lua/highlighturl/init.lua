@@ -10,11 +10,11 @@ local defaultConfig = {
 
 -- Advanced URL regex
 local url_matcher = "\\v\\c%(%(h?ttps?|ftp|file|ssh|git)://|[a-z]+[@][a-z]+[.][a-z]+:)"
-    .. "%([&:#*@~%_\\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)"
-    .. "[&:#*@~%_\\-=?!+/0-9a-z]+|:\\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|"
-    .. "[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\\([&:#*@~%_\\-=?!+;/.0-9a-z]*\\)"
-    .. "|\\[[&:#*@~%_\\-=?!+;/.0-9a-z]*\\]|\\{%([&:#*@~%_\\-=?!+;/.0-9a-z]*"
-    .. "|\\{[&:#*@~%_\\-=?!+;/.0-9a-z]*})\\})+"
+  .. "%([&:#*@~%_\\-=?!+;/0-9a-z]+%(%([.;/?]|[.][.]+)"
+  .. "[&:#*@~%_\\-=?!+/0-9a-z]+|:\\d+|,%(%(%(h?ttps?|ftp|file|ssh|git)://|"
+  .. "[a-z]+[@][a-z]+[.][a-z]+:)@![0-9a-z]+))*|\\([&:#*@~%_\\-=?!+;/.0-9a-z]*\\)"
+  .. "|\\[[&:#*@~%_\\-=?!+;/.0-9a-z]*\\]|\\{%([&:#*@~%_\\-=?!+;/.0-9a-z]*"
+  .. "|\\{[&:#*@~%_\\-=?!+;/.0-9a-z]*})\\})+"
 
 -- Internal state
 M.enabled = true
@@ -62,6 +62,11 @@ function M.setup(opts)
     pattern = "*",
     callback = M.highlight_urls,
   })
+
+  -- Create a user command for toggling
+  vim.api.nvim_create_user_command("URLHighlightToggle", function()
+    M.toggle()
+  end, { desc = "Toggle URL highlighting on/off" })
 end
 
 return M
