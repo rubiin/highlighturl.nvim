@@ -11,11 +11,27 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim) in lua
 
 {
 "rubiin/highlighturl.nvim",
-init = function()
-  vim.g.highlighturl = true
-end
+event = "BufEnter",  -- load when entering a buffer
+config = true,  -- use default settings
 }
 ```
+
+### Default Configuration
+
+The plugin comes with the following default settings:
+```lua
+require("highlighturl").setup({
+    ignore_filetypes = { "qf", "help", "NvimTree", "gitcommit" }, -- filetypes to skip
+    highlight_color = "#5fd7ff",                                    -- URL highlight color
+})
+```
+
+- You do not need to pass this unless you want to override defaults.
+
+- Default behavior: highlights URLs in all buffers except ignored filetypes.
+
+
+
 
 ## Screenshots
 
@@ -26,8 +42,3 @@ end
 ### After
 
 ![after](./images/after.png)
-
-### EXAMPLES
-
-Do not load this plugin. 
-```vim.g.highlighturl = true```
