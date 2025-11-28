@@ -1,4 +1,3 @@
--- lua/url_highlight.lua
 
 local M = {}
 
@@ -62,11 +61,6 @@ function M.setup(opts)
     pattern = "*",
     callback = M.highlight_urls,
   })
-
-  -- Create a user command for toggling
-  vim.api.nvim_create_user_command("URLHighlightToggle", function()
-    M.toggle()
-  end, { desc = "Toggle URL highlighting on/off" })
 end
 
 return M

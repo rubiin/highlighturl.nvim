@@ -11,7 +11,7 @@ Using [lazy.nvim](https://github.com/folke/lazy.nvim) in lua
 
 {
 "rubiin/highlighturl.nvim",
-event = "BufEnter",  -- load when entering a buffer
+event = "LazyFile",  -- load when entering a buffer
 config = true,  -- use default settings
 }
 ```
@@ -30,7 +30,8 @@ require("highlighturl").setup({
 
 - Default behavior: highlights URLs in all buffers except ignored filetypes.
 
-
+## Commands
+- `:URLHighlightToggle` - Toggle URL highlighting on/off in the current buffer.
 
 
 ## Screenshots

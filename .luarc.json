@@ -1,0 +1,17 @@
+{
+  "diagnostics.globals": [
+    "vim"
+  ],
+  "runtime.version": "LuaJIT",
+  "diagnostics.disable": [
+    "unused-local",
+    "different-requires",
+    "undefined-field",
+    "redundant-parameter",
+    "undefined-doc-name",
+    "redefined-local",
+    "need-check-nil",
+    "no-unknown"
+  ],
+  "workspace.checkThirdParty": false
+}
