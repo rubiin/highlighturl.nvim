@@ -1,10 +1,11 @@
-*highlighturl.nvim.txt*         For Neovim        Last change: 2025 October 23
+*highlighturl.nvim.txt*        For Neovim        Last change: 2025 November 28
 
 ==============================================================================
 Table of Contents                        *highlighturl.nvim-table-of-contents*
 
 1. HighlightURL                               |highlighturl.nvim-highlighturl|
   - Installation                 |highlighturl.nvim-highlighturl-installation|
+  - Commands                         |highlighturl.nvim-highlighturl-commands|
   - Screenshots                   |highlighturl.nvim-highlighturl-screenshots|
 2. Links                                             |highlighturl.nvim-links|
 
@@ -23,7 +24,7 @@ Using lazy.nvim <https://github.com/folke/lazy.nvim> in lua
     
     {
     "rubiin/highlighturl.nvim",
-    event = "BufEnter",  -- load when entering a buffer
+    event = "LazyFile",  -- load when entering a buffer
     config = true,  -- use default settings
     }
 <
@@ -42,6 +43,11 @@ The plugin comes with the following default settings:
 
 - You do not need to pass this unless you want to override defaults.
 - Default behavior: highlights URLs in all buffers except ignored filetypes.
+
+
+COMMANDS                             *highlighturl.nvim-highlighturl-commands*
+
+- `:URLHighlightToggle` - Toggle URL highlighting on/off in the current buffer.
 
 
 SCREENSHOTS                       *highlighturl.nvim-highlighturl-screenshots*
