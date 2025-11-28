@@ -4,7 +4,8 @@ on: [push, pull_request]
 jobs:
   release:
     name: release
-    if: ${{ github.ref == 'refs/heads/main' }}
+    # Run only if on master or main branch
+    if: ${{ github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main' }}
     runs-on: ubuntu-latest
     permissions:
       contents: write
