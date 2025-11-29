@@ -71,6 +71,12 @@ you want to customize:
     
       -- Debounce delay (ms) for TextChanged events (improves performance)
       debounce_ms = 100,
+    
+      -- Whether to underline URLs
+      underline = true,
+    
+      -- Suppress toggle notifications
+      silent = false,
     })
 <
 
@@ -91,6 +97,11 @@ OPTIONS ~
                                                                              before updating
                                                                              highlights after text
                                                                              changes
+
+  underline          boolean     true                                        Whether to underline URLs
+
+  silent             boolean     false                                       Suppress notification
+                                                                             messages on toggle
   ----------------------------------------------------------------------------------------------------
 
 COMMANDS                             *highlighturl.nvim-highlighturl-commands*
