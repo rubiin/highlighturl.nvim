@@ -6,6 +6,8 @@ local fn = vim.fn
 local bo = vim.bo
 local uv = vim.uv or vim.loop
 
+local namespace = "HighlightURLs"
+
 ---@class HighlightURLs.config
 local defaultConfig = {
   ignore_filetypes = { "qf", "help", "NvimTree", "gitcommit" },
@@ -34,6 +36,9 @@ local debounce_timer = nil
 
 -- Track match IDs per window (matches are window-local in Vim)
 local win_match_ids = {}
+
+-- Track last buffer changedtick per window to skip redundant updates
+local win_last_tick = {}
 
 -- Build set from list for O(1) lookup
 local function build_ignore_set(list)
@@ -71,26 +76,42 @@ local function do_highlight()
     return
   end
 
+  local bufnr = api.nvim_get_current_buf()
+  local win = api.nvim_get_current_win()
+
   -- Check buffer-local disable flag
-  if vim.b.highlighturl_disabled then
+  if vim.b[bufnr].highlighturl_disabled then
     clear_url_matches()
     return
   end
 
-  local ft = bo.filetype
+  local ft = bo[bufnr].filetype
   if ignore_filetypes_set[ft] then
     return
   end
 
-  -- Skip empty/unloaded buffers
-  local bufnr = api.nvim_get_current_buf()
+  -- Skip special buffer types (terminal, nofile, prompt, etc.)
+  local buftype = bo[bufnr].buftype
+  if buftype ~= "" then
+    return
+  end
+
+  -- Skip unloaded buffers
   if not api.nvim_buf_is_loaded(bufnr) then
     return
   end
 
+  -- Skip if buffer hasn't changed and we already have a match
+  local tick = api.nvim_buf_get_changedtick(bufnr)
+  local key = bufnr .. ":" .. win
+  if win_match_ids[win] and win_last_tick[key] == tick then
+    return
+  end
+  win_last_tick[key] = tick
+
   -- Clear previous URL match and add new one
   clear_url_matches()
-  local new_match_id = fn.matchadd("URLHighlight", url_matcher)
+  local new_match_id = fn.matchadd(namespace, url_matcher)
   set_win_match_id(new_match_id)
 end
 
@@ -162,14 +183,21 @@ end
 -- Setup function with optional configuration
 ---@param opts? HighlightURLs.config
 function M.setup(opts)
+  -- Cancel existing timer on reload to prevent leaks
+  if debounce_timer then
+    debounce_timer:stop()
+    debounce_timer:close()
+    debounce_timer = nil
+  end
+
   M.opts = vim.tbl_deep_extend("force", defaultConfig, opts or {})
 
   -- Build ignore set for O(1) lookup
   ignore_filetypes_set = build_ignore_set(M.opts.ignore_filetypes)
 
-  api.nvim_set_hl(0, "URLHighlight", { fg = M.opts.highlight_color, underline = M.opts.underline })
+  api.nvim_set_hl(0, namespace, { fg = M.opts.highlight_color, underline = M.opts.underline })
 
-  local group = api.nvim_create_augroup("HighlightURLs", { clear = true })
+  local group = api.nvim_create_augroup(namespace, { clear = true })
 
   -- Immediate highlight on BufEnter
   api.nvim_create_autocmd("BufEnter", {
@@ -183,6 +211,24 @@ function M.setup(opts)
     group = group,
     pattern = "*",
     callback = highlight_debounced,
+  })
+
+  -- Cleanup match IDs when window closes to prevent memory leak
+  api.nvim_create_autocmd("WinClosed", {
+    group = group,
+    pattern = "*",
+    callback = function(ev)
+      local win = tonumber(ev.match)
+      if win then
+        win_match_ids[win] = nil
+        -- Cleanup tick cache for this window
+        for key in pairs(win_last_tick) do
+          if key:match(":" .. win .. "$") then
+            win_last_tick[key] = nil
+          end
+        end
+      end
+    end,
   })
 end
 
