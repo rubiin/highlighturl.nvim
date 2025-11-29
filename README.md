@@ -115,11 +115,13 @@ vim.b.highlighturl_disabled = false -- re-enable
 
 ### Before
 
-![before](./images/before.png)
+<img width="821" height="582" alt="image" src="https://github.com/user-attachments/assets/6e3b208b-15d3-4aad-bec9-22d2a5957343" />
+
 
 ### After
 
-![after](./images/after.png)
+<img width="950" height="668" alt="image" src="https://github.com/user-attachments/assets/83a4a3a1-dc7c-42fa-89fc-c03fab365673" />
+
 
 ## 📄 License
 
