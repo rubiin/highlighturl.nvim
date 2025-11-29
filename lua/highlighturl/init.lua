@@ -29,7 +29,9 @@ local ignore_filetypes_set = {}
 
 -- Debounce state
 local debounce_timer = nil
-local match_id = nil -- track our match id to avoid clearing others
+
+-- Track match IDs per window (matches are window-local in Vim)
+local win_match_ids = {}
 
 -- Build set from list for O(1) lookup
 local function build_ignore_set(list)
@@ -40,17 +42,36 @@ local function build_ignore_set(list)
   return set
 end
 
--- Clear only our URL matches (not all matches)
+-- Get current window's match id
+local function get_win_match_id()
+  local win = api.nvim_get_current_win()
+  return win_match_ids[win]
+end
+
+-- Set current window's match id
+local function set_win_match_id(id)
+  local win = api.nvim_get_current_win()
+  win_match_ids[win] = id
+end
+
+-- Clear only our URL matches for current window
 local function clear_url_matches()
+  local match_id = get_win_match_id()
   if match_id then
     pcall(fn.matchdelete, match_id)
-    match_id = nil
+    set_win_match_id(nil)
   end
 end
 
 -- Core highlight logic (no debounce)
 local function do_highlight()
   if not M.enabled then
+    return
+  end
+
+  -- Check buffer-local disable flag
+  if vim.b.highlighturl_disabled then
+    clear_url_matches()
     return
   end
 
@@ -67,7 +88,8 @@ local function do_highlight()
 
   -- Clear previous URL match and add new one
   clear_url_matches()
-  match_id = fn.matchadd("URLHighlight", url_matcher)
+  local new_match_id = fn.matchadd("URLHighlight", url_matcher)
+  set_win_match_id(new_match_id)
 end
 
 -- Debounced highlight for TextChanged events
@@ -78,14 +100,18 @@ local function highlight_debounced()
     debounce_timer = nil
   end
   debounce_timer = uv.new_timer()
-  debounce_timer:start(M.opts.debounce_ms, 0, vim.schedule_wrap(function()
-    if debounce_timer then
-      debounce_timer:stop()
-      debounce_timer:close()
-      debounce_timer = nil
-    end
-    do_highlight()
-  end))
+  debounce_timer:start(
+    M.opts.debounce_ms,
+    0,
+    vim.schedule_wrap(function()
+      if debounce_timer then
+        debounce_timer:stop()
+        debounce_timer:close()
+        debounce_timer = nil
+      end
+      do_highlight()
+    end)
+  )
 end
 
 -- Public: highlight URLs (immediate, for BufEnter)
@@ -103,6 +129,26 @@ function M.toggle()
   else
     clear_url_matches()
     vim.notify("URL highlighting disabled", vim.log.levels.WARN)
+  end
+end
+
+--- Disable URL highlighting for a specific buffer
+---@param bufnr? number Buffer number (defaults to current buffer)
+function M.disable_for_buffer(bufnr)
+  bufnr = bufnr or api.nvim_get_current_buf()
+  api.nvim_buf_set_var(bufnr, "highlighturl_disabled", true)
+  if bufnr == api.nvim_get_current_buf() then
+    clear_url_matches()
+  end
+end
+
+--- Enable URL highlighting for a specific buffer
+---@param bufnr? number Buffer number (defaults to current buffer)
+function M.enable_for_buffer(bufnr)
+  bufnr = bufnr or api.nvim_get_current_buf()
+  api.nvim_buf_set_var(bufnr, "highlighturl_disabled", false)
+  if bufnr == api.nvim_get_current_buf() then
+    do_highlight()
   end
 end
 
@@ -131,6 +177,15 @@ function M.setup(opts)
     pattern = "*",
     callback = highlight_debounced,
   })
+
+  -- User commands for buffer-local control
+  api.nvim_create_user_command("URLHighlightDisable", function()
+    M.disable_for_buffer()
+  end, { desc = "Disable URL highlighting for current buffer" })
+
+  api.nvim_create_user_command("URLHighlightEnable", function()
+    M.enable_for_buffer()
+  end, { desc = "Enable URL highlighting for current buffer" })
 end
 
 return M
