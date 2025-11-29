@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.3.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.2.0...v1.3.0) (2025-11-29)
+
+
+### Features
+
+* add buffer-local control commands for URL highlighting ([54b2d5e](https://github.com/rubiin/highlighturl.nvim/commit/54b2d5e6c7a3c1cf50fc641a75a714b4893a3344))
+
 ## [1.2.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.1.1...v1.2.0) (2025-11-28)
 
 
