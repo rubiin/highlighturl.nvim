@@ -1,5 +1,18 @@
 # Changelog
 
+## [1.4.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.3.0...v1.4.0) (2025-11-29)
+
+
+### Features
+
+* add silent option for notifications and update toggle messages ([981c26b](https://github.com/rubiin/highlighturl.nvim/commit/981c26b94d1749a60ccb0cd0dabe70ea26e958ee))
+* add underline and silent options to configuration ([4500bad](https://github.com/rubiin/highlighturl.nvim/commit/4500bad39cea5201157990b1a4b0284aafa0beac))
+
+
+### Bug Fixes
+
+* use configurable underline option for URL highlighting ([d5462dc](https://github.com/rubiin/highlighturl.nvim/commit/d5462dc6fe1ec46bdaaa76cb53ba354c44ee0e24))
+
 ## [1.3.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.2.0...v1.3.0) (2025-11-29)
 
 
