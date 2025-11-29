@@ -177,15 +177,6 @@ function M.setup(opts)
     pattern = "*",
     callback = highlight_debounced,
   })
-
-  -- User commands for buffer-local control
-  api.nvim_create_user_command("URLHighlightDisable", function()
-    M.disable_for_buffer()
-  end, { desc = "Disable URL highlighting for current buffer" })
-
-  api.nvim_create_user_command("URLHighlightEnable", function()
-    M.enable_for_buffer()
-  end, { desc = "Enable URL highlighting for current buffer" })
 end
 
 return M
