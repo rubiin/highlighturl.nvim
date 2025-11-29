@@ -48,6 +48,12 @@ require("highlighturl").setup({
 
   -- Debounce delay (ms) for TextChanged events (improves performance)
   debounce_ms = 100,
+
+  -- Whether to underline URLs
+  underline = true,
+
+  -- Suppress toggle notifications
+  silent = false,
 })
 ```
 
@@ -58,6 +64,8 @@ require("highlighturl").setup({
 | `ignore_filetypes` | `table` | `{ "qf", "help", "NvimTree", "gitcommit" }` | List of filetypes where URL highlighting is disabled |
 | `highlight_color` | `string` | `"#5fd7ff"` | Hex color for highlighted URLs |
 | `debounce_ms` | `number` | `100` | Milliseconds to wait before updating highlights after text changes |
+| `underline` | `boolean` | `true` | Whether to underline URLs |
+| `silent` | `boolean` | `false` | Suppress notification messages on toggle |
 
 ## 🎮 Commands
 
