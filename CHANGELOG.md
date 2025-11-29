@@ -1,5 +1,12 @@
 # Changelog
 
+## [1.5.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.4.0...v1.5.0) (2025-11-29)
+
+
+### Features
+
+* enhance URL highlighting with buffer-specific checks and cleanup ([c43a900](https://github.com/rubiin/highlighturl.nvim/commit/c43a90067cde60147d61c3dd71eff3953c41aedc))
+
 ## [1.4.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.3.0...v1.4.0) (2025-11-29)
 
 
