@@ -11,6 +11,7 @@ local defaultConfig = {
   ignore_filetypes = { "qf", "help", "NvimTree", "gitcommit" },
   highlight_color = "#5fd7ff",
   debounce_ms = 100, -- debounce time for TextChanged events
+  underline = true,
 }
 
 -- Advanced URL regex (pre-computed, reused)
@@ -160,7 +161,7 @@ function M.setup(opts)
   -- Build ignore set for O(1) lookup
   ignore_filetypes_set = build_ignore_set(M.opts.ignore_filetypes)
 
-  api.nvim_set_hl(0, "URLHighlight", { fg = M.opts.highlight_color, underline = true })
+  api.nvim_set_hl(0, "URLHighlight", { fg = M.opts.highlight_color, underline = M.opts.underline })
 
   local group = api.nvim_create_augroup("HighlightURLs", { clear = true })
 
