@@ -12,6 +12,7 @@ local defaultConfig = {
   highlight_color = "#5fd7ff",
   debounce_ms = 100, -- debounce time for TextChanged events
   underline = true,
+  silent = false,
 }
 
 -- Advanced URL regex (pre-computed, reused)
@@ -120,16 +121,21 @@ function M.highlight_urls()
   do_highlight()
 end
 
+function M.notify(text)
+  if not M.opts.silent then
+    vim.notify(text, vim.log.levels.INFO)
+  end
+end
 -- Toggle highlight state
 function M.toggle()
   M.enabled = not M.enabled
 
   if M.enabled then
-    vim.notify("URL highlighting enabled", vim.log.levels.INFO)
     do_highlight()
+    M.notify("URL highlighting enabled")
   else
     clear_url_matches()
-    vim.notify("URL highlighting disabled", vim.log.levels.WARN)
+    M.notify("URL highlighting disabled")
   end
 end
 
