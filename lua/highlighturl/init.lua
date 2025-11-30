@@ -38,6 +38,7 @@ local debounce_timer = nil
 local win_match_ids = {}
 
 -- Track last buffer changedtick per window to skip redundant updates
+-- Nested table: win_last_tick[win][bufnr] = tick
 local win_last_tick = {}
 
 -- Build set from list for O(1) lookup
@@ -103,11 +104,15 @@ local function do_highlight()
 
   -- Skip if buffer hasn't changed and we already have a match
   local tick = api.nvim_buf_get_changedtick(bufnr)
-  local key = bufnr .. ":" .. win
-  if win_match_ids[win] and win_last_tick[key] == tick then
+  local win_ticks = win_last_tick[win]
+  if win_match_ids[win] and win_ticks and win_ticks[bufnr] == tick then
     return
   end
-  win_last_tick[key] = tick
+  if not win_ticks then
+    win_ticks = {}
+    win_last_tick[win] = win_ticks
+  end
+  win_ticks[bufnr] = tick
 
   -- Clear previous URL match and add new one
   clear_url_matches()
@@ -220,12 +225,7 @@ function M.setup(opts)
       local win = tonumber(ev.match)
       if win then
         win_match_ids[win] = nil
-        -- Cleanup tick cache for this window
-        for key in pairs(win_last_tick) do
-          if key:match(":" .. win .. "$") then
-            win_last_tick[key] = nil
-          end
-        end
+        win_last_tick[win] = nil
       end
     end,
   })
