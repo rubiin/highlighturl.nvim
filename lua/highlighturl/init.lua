@@ -41,6 +41,10 @@ local win_match_ids = {}
 -- Nested table: win_last_tick[win][bufnr] = tick
 local win_last_tick = {}
 
+-- Track last highlight config to avoid redundant nvim_set_hl calls
+local last_hl_color = nil
+local last_hl_underline = nil
+
 -- Build set from list for O(1) lookup
 local function build_ignore_set(list)
   local set = {}
@@ -199,7 +203,12 @@ function M.setup(opts)
   -- Build ignore set for O(1) lookup
   ignore_filetypes_set = build_ignore_set(M.opts.ignore_filetypes)
 
-  api.nvim_set_hl(0, namespace, { fg = M.opts.highlight_color, underline = M.opts.underline })
+  -- Only update highlight group if config changed
+  if last_hl_color ~= M.opts.highlight_color or last_hl_underline ~= M.opts.underline then
+    api.nvim_set_hl(0, namespace, { fg = M.opts.highlight_color, underline = M.opts.underline })
+    last_hl_color = M.opts.highlight_color
+    last_hl_underline = M.opts.underline
+  end
 
   local group = api.nvim_create_augroup(namespace, { clear = true })
 
