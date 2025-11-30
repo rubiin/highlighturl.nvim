@@ -138,11 +138,7 @@ local function highlight_debounced()
 
   -- Stop any pending callback and restart
   debounce_timer:stop()
-  debounce_timer:start(
-    M.opts.debounce_ms,
-    0,
-    vim.schedule_wrap(do_highlight)
-  )
+  debounce_timer:start(M.opts.debounce_ms, 0, vim.schedule_wrap(do_highlight))
 end
 
 -- Public: highlight URLs (immediate, for BufEnter)
