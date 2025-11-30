@@ -79,20 +79,15 @@ local function do_highlight()
   local bufnr = api.nvim_get_current_buf()
   local win = api.nvim_get_current_win()
 
+  -- Batch buffer option checks first
+  local buf_opts = bo[bufnr]
+  if buf_opts.buftype ~= "" or ignore_filetypes_set[buf_opts.filetype] then
+    return
+  end
+
   -- Check buffer-local disable flag
   if vim.b[bufnr].highlighturl_disabled then
     clear_url_matches()
-    return
-  end
-
-  local ft = bo[bufnr].filetype
-  if ignore_filetypes_set[ft] then
-    return
-  end
-
-  -- Skip special buffer types (terminal, nofile, prompt, etc.)
-  local buftype = bo[bufnr].buftype
-  if buftype ~= "" then
     return
   end
 
