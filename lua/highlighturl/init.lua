@@ -122,28 +122,22 @@ end
 
 -- Debounced highlight for TextChanged events
 local function highlight_debounced()
-  -- Early return before creating timer
+  -- Early return before using timer
   if not M.enabled then
     return
   end
 
-  if debounce_timer then
-    debounce_timer:stop()
-    debounce_timer:close()
-    debounce_timer = nil
+  -- Create timer once, reuse it
+  if not debounce_timer then
+    debounce_timer = uv.new_timer()
   end
-  debounce_timer = uv.new_timer()
+
+  -- Stop any pending callback and restart
+  debounce_timer:stop()
   debounce_timer:start(
     M.opts.debounce_ms,
     0,
-    vim.schedule_wrap(function()
-      if debounce_timer then
-        debounce_timer:stop()
-        debounce_timer:close()
-        debounce_timer = nil
-      end
-      do_highlight()
-    end)
+    vim.schedule_wrap(do_highlight)
   )
 end
 
