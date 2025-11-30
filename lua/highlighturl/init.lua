@@ -117,6 +117,11 @@ end
 
 -- Debounced highlight for TextChanged events
 local function highlight_debounced()
+  -- Early return before creating timer
+  if not M.enabled then
+    return
+  end
+
   if debounce_timer then
     debounce_timer:stop()
     debounce_timer:close()
