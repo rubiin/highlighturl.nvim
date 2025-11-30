@@ -101,6 +101,11 @@ local function do_highlight()
     return
   end
 
+  -- Skip hidden/background buffers (not displayed in any window)
+  if fn.bufwinid(bufnr) == -1 then
+    return
+  end
+
   -- Skip if buffer hasn't changed and we already have a match
   local tick = api.nvim_buf_get_changedtick(bufnr)
   local key = bufnr .. ":" .. win
