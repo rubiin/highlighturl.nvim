@@ -169,7 +169,7 @@ end
 ---@param bufnr? number Buffer number (defaults to current buffer)
 function M.disable_for_buffer(bufnr)
   bufnr = bufnr or api.nvim_get_current_buf()
-  api.nvim_buf_set_var(bufnr, "highlighturl_disabled", true)
+  vim.b[bufnr].highlighturl_disabled = true
   if bufnr == api.nvim_get_current_buf() then
     clear_url_matches()
   end
@@ -179,7 +179,7 @@ end
 ---@param bufnr? number Buffer number (defaults to current buffer)
 function M.enable_for_buffer(bufnr)
   bufnr = bufnr or api.nvim_get_current_buf()
-  api.nvim_buf_set_var(bufnr, "highlighturl_disabled", false)
+  vim.b[bufnr].highlighturl_disabled = false
   if bufnr == api.nvim_get_current_buf() then
     do_highlight()
   end
