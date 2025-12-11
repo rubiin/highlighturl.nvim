@@ -1,5 +1,20 @@
 # Changelog
 
+## [1.5.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.4.0...v1.5.0) (2025-12-11)
+
+
+### Features
+
+* add early return in highlight_debounced to prevent unnecessary timer creation ([e45da36](https://github.com/rubiin/highlighturl.nvim/commit/e45da36c549b5bf9fa96e458ae1d1532eba731b4))
+* enhance URL highlighting with buffer-specific checks and cleanup ([c43a900](https://github.com/rubiin/highlighturl.nvim/commit/c43a90067cde60147d61c3dd71eff3953c41aedc))
+* improve buffer change tracking in do_highlight function ([3598a75](https://github.com/rubiin/highlighturl.nvim/commit/3598a75c78c66d11230639eb2f8c1ec5fafb205b))
+* optimize buffer option checks in do_highlight function ([fb2349f](https://github.com/rubiin/highlighturl.nvim/commit/fb2349f54b9e2ef9490bd9bf05b50e8afd126d0b))
+* optimize debounce logic in highlight_debounced function ([bbf9f55](https://github.com/rubiin/highlighturl.nvim/commit/bbf9f55bf1105f6d809e436af391fd6468ae35dd))
+* optimize highlight configuration updates to avoid redundant calls ([e98006b](https://github.com/rubiin/highlighturl.nvim/commit/e98006b21393a0a3221724e4a05e96bd253a160b))
+* skip hidden/background buffers in highlight logic ([7143804](https://github.com/rubiin/highlighturl.nvim/commit/714380484f10e7f80226905b8aea6261be559f68))
+* streamline debounce timer restart logic in highlight_debounced function ([9887c3c](https://github.com/rubiin/highlighturl.nvim/commit/9887c3c84657928e50d4bab0aa49ecf3a87065d0))
+* update buffer variable access for enabling/disabling URL highlighting ([d25de18](https://github.com/rubiin/highlighturl.nvim/commit/d25de18373f17f423096569e2003633179e706c9))
+
 ## [1.4.0](https://github.com/rubiin/highlighturl.nvim/compare/v1.3.0...v1.4.0) (2025-11-29)
 
 
