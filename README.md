@@ -34,6 +34,19 @@ use {
 }
 ```
 
+Using [vim-plug](https://github.com/junegunn/vim-plug):
+
+```vim
+call plug#begin('~/.vim/plugged')
+Plug 'rubiin/highlighturl.nvim'
+call plug#end()
+
+" Configure (in your vimrc/init.vim)
+lua << EOF
+require('highlighturl').setup()
+EOF
+```
+
 ## ⚙️ Configuration
 
 The plugin works out of the box with sensible defaults. Call `setup()` only if you want to customize:
